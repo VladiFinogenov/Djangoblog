@@ -1,0 +1,49 @@
+{% load mptt_tags static %}
+<h3 class="comments-title">Комментарии</h3>
+<hr class="comments-line">
+<div class="comments nested-comments">
+{% recursetree post.comments.all %}
+    <ul id="comment-thread-{{ node.pk }}">
+        <li class="comment">
+            <div class="comment-block">
+                <img src="{{ node.author.avatar.url }}" style="width: 40px;height: 40px;object-fit: cover;" alt="{{ node.author }}"/>
+                <div class="comment-content">
+                    <div class="comment-author-block">
+                        <a class="comment-author" href="{{ node.author.get_absolute_url }}">{{ node.author }}</a>
+                        <time>{{ node.time_create }}</time>
+                    </div>
+                    <p class="comment-text">
+                        {{ node.content }}
+                    </p>
+                </div>
+            </div>
+            <div class="comment-actions">
+                <a href="#commentForm" class="btn-reply comment-action" data-comment-id="{{ node.pk }}" data-comment-username="{{ node.author }}">Ответить</a>
+                {% if node.author.id == request.user.id %}
+                <button type="button" class="comment-action comment-delete" data-comment-id="{{ node.pk }}" data-comment-username="{{ node.author }}">Удалить</button>
+
+                {% endif %}
+            </div>
+        </li>
+         {% if not node.is_leaf_node %}
+            {{ children }}
+         {% endif %}
+    </ul>
+{% endrecursetree %}
+</div>
+<div>
+    {% if request.user.is_authenticated %}
+        <div class="">
+           <div class="comment-wrap">
+              <form class="comment-form" method="post" action="{% url 'comment_create_view' post.pk %}" id="commentForm" name="commentForm" data-post-id="{{ post.pk }}">
+                 {{ form }}
+                  <button class="comment-submit" type="submit" id="commentSubmit">Добавить комментарий</button>
+              </form>
+           </div>
+        </div>
+    {% endif %}
+</div>
+
+{% block script %}
+<script src="{% static 'js/comments.js' %}"></script>
+{% endblock %}

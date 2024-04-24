@@ -1,0 +1,52 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <div class="profile">
+
+        <div class="profile-card">
+            <figure>
+                <img src="{{ profile.avatar.url }}" alt="{{ profile }}">
+            </figure>
+            <div>
+                 <h5 class="profile-title">
+                    {{ profile.get_full_name }}
+                </h5>
+                <div class="profile-content">
+                    <ul class="profile-list">
+                        <li>На сайте с: {{ profile.last_login }}</li>
+                    </ul>
+                    {% if request.user.email == profile.email %}
+                        <a href="{% url 'profile_edit' %}" class="add-post-btn">Редактировать профиль</a>
+                    {% endif %}
+
+                    <a href="{% url 'post_create' %}" class="add-post-btn">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                        </svg>
+                        <span>Добавить статью</span>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+        <div class="profile-card-bio">
+            <h2>Обо мне</h2>
+            <ul>
+                {% if profile.birth_date %}<li>Дата рождения: {{ profile.birth_date }}</li>{% endif %}
+                <li>{{ profile.bio }}</li>
+            </ul>
+        </div>
+        <div class="profile-card-my-post">
+            <h2>Мои статьи</h2>
+            {% for post in author_posts %}
+                <ul>
+                    <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+                </ul>
+
+            {% endfor %}
+        </div>
+        <div class="profile-card-my-subscriptions">
+            <h2>Мои подписки</h2>
+        </div>
+    </div>
+{% endblock %}

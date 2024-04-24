@@ -1,0 +1,10 @@
+{% load static %}
+{% if messages %}
+    {% for message in messages %}
+        <div id="alert" class="alert" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+    <script src="{% static 'js/alert.js' %}"></script>
+{% block script %}{% endblock %}

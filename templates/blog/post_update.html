@@ -1,0 +1,12 @@
+{% extends 'main.html' %}
+{% block content %}
+    <div class="card-post-create">
+        <h3>Обновление статьи: {{ post.title }}</h3>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.media }}
+            {{ form.as_p }}
+            <button type="submit" class="add-post-btn">Обновить статью</button>
+        </form>
+    </div>
+{% endblock %}

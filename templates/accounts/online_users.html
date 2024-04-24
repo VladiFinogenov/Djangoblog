@@ -1,0 +1,10 @@
+<h1>Online Users</h1>
+<p>There are <span id="online_users_count">0</span> users online.</p>
+
+<div id="user_statuses">
+    {% for user in users %}
+        <div>
+            User {{ user.id }}: <span id="user_{{ user.id }}_status" class="online-status">Offline</span>
+        </div>
+    {% endfor %}
+</div>
